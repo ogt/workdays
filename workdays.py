@@ -9,35 +9,6 @@ weekends=(SAT,SUN)
 
 
 def networkdays(start_date, end_date, holidays=[]):
-    '''
-    NETWORKDAYS(start_date,end_date,holidays)
-
-    Returns the number of whole working days between start_date and
-    end_date (inclusive of both start_date and end_date). Working days
-    exclude weekends and any dates identified in holidays. Use NETWORKDAYS
-    to calculate employee benefits that accrue based on the number of
-    days worked during a specific term.
-
-    Start_date is a date that represents the start date.
-
-    End_date is a date that represents the end date.
-
-    Holidays is an optional list of one or more dates to exclude from
-    the working calendar, such as state and federal holidays and floating
-    holidays. The holiday list should not have duplicates.
-
-    The function should work almost identically to the corresponding
-    Networkdays function of Excel  (Analysis ToolPak)
-
-    Note that just like in excel workday and networks days aren't
-    "complimentary"  i..e if wdays = networkdays(d1,d2) you *cannot*
-    infer that workday(d1,wdays) = d2 given that networkdays is returning
-    the # of working days inclusive of d1 and d2. Excel apparently has
-    chosen to facilitate common use cases and not to make the functions
-    complimentary. We have followed to obey excel's conventions as
-    opposed to come up with our own.
-    Also start_date has to be less than or equal to end_date
-    '''
     delta_days = (end_date - start_date).days + 1
     full_weeks, extra_days = divmod(delta_days, 7)
     # num_workdays = how many days/week you work * total # of weeks
@@ -60,30 +31,6 @@ def _in_between(a,b,x):
 
 
 def workday(start_date,days, holidays=[]):
-    '''
-    WORKDAY(start_date,days,[holidays])
-
-    Returns a number that represents a date that is the indicated number
-    of working days before or after a date (the starting date). Working
-    days exclude weekends and any dates identified as holidays. Use
-    WORKDAY to exclude weekends or holidays when you calculate invoice
-    due dates, expected delivery times, or the number of days of work
-    performed.
-
-    Start_date is a date that represents the start date.
-
-    Days is the number of nonweekend and nonholiday days before or
-    after start_date. A positive value for days yields a future date;
-    a negative value yields a past date.
-
-    Holidays is an optional list of one or more dates to exclude from
-    the working calendar, such as state and federal holidays and floating
-    holidays. The holiday list should not have duplicates.
-
-    The function should work almost identically to the corresponding
-    Workday function of Excel  (Analysis ToolPak)
-    
-    '''
     full_weeks, extra_days = divmod(days,7 - len(weekends))
     new_date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
@@ -102,35 +49,3 @@ def workday(start_date,days, holidays=[]):
                 new_date += delta
     return new_date
 
-
-'''
-Examples
-
->>> workday(date(year=2009,month=12,day=25),1, [ date(year=2009,month=12,day=25)
-] )
-datetime.date(2009, 12, 28)
->>> workday(date(year=2009,month=12,day=25),1, [ date(year=2009,month=12,day=26)
-] )
-datetime.date(2009, 12, 28)
->>> workday(date(year=2009,month=12,day=25),1, [ date(year=2009,month=12,day=28)
-] )
-datetime.date(2009, 12, 29)
->>> workday(date(year=2009,month=12,day=29),-1, [ date(year=2009,month=12,day=25
-)] )
-datetime.date(2009, 12, 28)
->>> workday(date(year=2009,month=12,day=28),-1, [ date(year=2009,month=12,day=25
-)] )
-datetime.date(2009, 12, 24)
->>> networkdays(date(2009, 12, 24),date(2009, 12, 28))
-3
->>> networkdays(date(2009, 12, 24),date(2009, 12, 28), [ date(year=2009,month=12
-,day=25)] )
-2
->>> networkdays(date(2009, 12, 25),date(2009, 12, 28), [ date(year=2009,month=12
-,day=25)] )
-1
->>> networkdays(date(2009, 12, 25),date(2009, 12, 27), [ date(year=2009,month=12
-,day=25)] )
-0
->>> 
-'''
