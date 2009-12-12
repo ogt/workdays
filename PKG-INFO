@@ -5,7 +5,7 @@ Summary: Workday date utility functions
 Home-page: http://github.com/ogt/workdays
 Author: Odysseas Tsatalos
 Author-email: odysseas@tsatalos.com
-License: Public Domain
+License: Aristic Licence
 Description: 
 
     Extend python datetime with excel-like workday addition/subtraction
@@ -30,9 +30,9 @@ Description:
 
 
 Platform: any
-Classifier: Development Status :: 4 - Beta
+Classifier: Development Status :: 3 - Alpha
 Classifier: Intended Audience :: Developers
-Classifier: License :: BOLA
+Classifier: License :: OSI Approved :: Artistic License
 Classifier: Operating System :: OS Independent
 Classifier: Programming Language :: Python
 Classifier: Topic :: Utilities
