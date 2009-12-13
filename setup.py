@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(name='workdays',
       version='1.0',
-      description='Workday date utility functions',
+      description="Workday date utility functions to extend python's datetime",
       author='Odysseas Tsatalos',
       py_modules=['workdays'],
       url='http://github.com/ogt/workdays',
