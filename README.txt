@@ -49,6 +49,9 @@ holidays. The holiday list should not have duplicates.
 The function should work almost identically to the corresponding Workday
 function of Excel  (Analysis ToolPak)
 
+This module has similarities with the BusinessHours module - you may
+want to check it out as well to see which one better fits your needs
+
 ========================================================
 Examples
 ========================================================

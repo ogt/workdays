@@ -28,6 +28,8 @@ Description:
     due dates, expected delivery times, or the number of days of work
     performed.
 
+    This module has similarities with the BusinessHours module - you may
+    want to check it out as well to see which one better fits your needs.
 
 Platform: any
 Classifier: Development Status :: 3 - Alpha
