@@ -30,22 +30,28 @@ def _in_between(a,b,x):
     return a <= x and x <= b or b <= x and x <= a
 
 
-def workday(start_date,days, holidays=[]):
+def workday(start_date, days=0, holidays=[]):
     full_weeks, extra_days = divmod(days,7 - len(weekends))
     new_date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
         new_date += timedelta(days=1)
         while new_date.weekday() in weekends:
             new_date += timedelta(days=1)
-    delta = timedelta(days=1 * cmp(days,0))
-    # skip holidays that fall on weekends
-    holidays =  [x for x in holidays if x.weekday() not in weekends ]
-    holidays =  [x for x in holidays if x <> start_date ]
-    for d in sorted(holidays, reverse = (days < 0)):
-        # if d in between start and current push it out one working day
-        if _in_between(start_date, new_date, d):
-            new_date += delta
-            while new_date.weekday() in weekends:
+    # to account for days=0 case
+    while new_date.weekday() in weekends:
+        new_date += timedelta(days=1)
+
+    # avoid this if no holidays
+    if holidays:
+        delta = timedelta(days=1 * cmp(days,0))
+        # skip holidays that fall on weekends
+        holidays =  [x for x in holidays if x.weekday() not in weekends ]
+        holidays =  [x for x in holidays if x <> start_date ]
+        for d in sorted(holidays, reverse = (days < 0)):
+            # if d in between start and current push it out one working day
+            if _in_between(start_date, new_date, d):
                 new_date += delta
+                while new_date.weekday() in weekends:
+                    new_date += delta
     return new_date
 
