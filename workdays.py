@@ -1,4 +1,4 @@
-from datetime import date, timedelta
+from datetime import timedelta
 
 # started from the code of Casey Webster at
 # http://groups.google.com/group/comp.lang.python/browse_thread/thread/ddd39a02644540b7
@@ -21,14 +21,15 @@ def networkdays(start_date, end_date, holidays=[]):
     holidays =  [x for x in holidays if x.weekday() not in weekends]
     # subtract out any holidays 
     for d in holidays:
-        if d >= start_date and d <= end_date:
+        if start_date <= d <= end_date:
             num_workdays -= 1
     return num_workdays
 
 def _in_between(a,b,x):
-    #return cmp(a,x) * cmp(x,b) > 0
-    return a <= x and x <= b or b <= x and x <= a
+    return a <= x <= b or b <= x <= a
 
+def cmp(a, b):
+    return (a > b) - (a < b)
 
 def workday(start_date, days=0, holidays=[]):
     full_weeks, extra_days = divmod(days,7 - len(weekends))
@@ -46,7 +47,7 @@ def workday(start_date, days=0, holidays=[]):
         delta = timedelta(days=1 * cmp(days,0))
         # skip holidays that fall on weekends
         holidays =  [x for x in holidays if x.weekday() not in weekends ]
-        holidays =  [x for x in holidays if x <> start_date ]
+        holidays =  [x for x in holidays if x != start_date ]
         for d in sorted(holidays, reverse = (days < 0)):
             # if d in between start and current push it out one working day
             if _in_between(start_date, new_date, d):
