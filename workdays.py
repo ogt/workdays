@@ -32,6 +32,14 @@ def cmp(a, b):
     return (a > b) - (a < b)
 
 def workday(start_date, days=0, holidays=[]):
+    if days== 0:
+        return start_date;
+    if days>0 and start_date.weekday() in weekends: #
+      while start_date.weekday() in weekends:
+          start_date -= timedelta(days=1)
+    elif days < 0:
+      while start_date.weekday() in weekends:
+          start_date += timedelta(days=1)
     full_weeks, extra_days = divmod(days,7 - len(weekends))
     new_date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
