@@ -1,3 +1,5 @@
+# tests are courtesy of github user @petef4
+
 from datetime import date
 from workdays import workday
 
