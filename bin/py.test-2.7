@@ -1,0 +1,9 @@
+#!/Users/odysseas/Dropbox/Home/code/projects/workdays/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'pytest==2.5.2','console_scripts','py.test-2.7'
+__requires__ = 'pytest==2.5.2'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('pytest==2.5.2', 'console_scripts', 'py.test-2.7')()
+)
