@@ -1,8 +1,15 @@
-========================================================
-Function Definition
-========================================================
+Workday date utility functions to extend datetime
+==
+[![Build Status](https://travis-ci.org/ogt/workdays.png)](https://travis-ci.org/ogt/workdays)
+## Synopsis
 
-NETWORKDAYS(start_date,end_date,holidays)
+`NETWORKDAYS(start_date,end_date,holidays)`
+
+`WORKDAY(start_date,days,[holidays])`
+
+## Description
+
+`NETWORKDAYS(start_date,end_date,holidays)`
 
 Returns the number of whole working days between start_date and end_date
 (inclusive of both start_date and end_date). Working days exclude
@@ -28,9 +35,7 @@ complimentary. We have followed to obey excel's conventions as opposed
 to come up with our own.  Also start_date has to be less than or equal
 to end_date
 
--------------------------------------------------------
-
-WORKDAY(start_date,days,[holidays])
+`WORKDAY(start_date,days,[holidays])`
 
 Returns a number that represents a date that is the indicated number
 of working days before or after a date (the starting date). Working
@@ -52,10 +57,9 @@ function of Excel  (Analysis ToolPak)
 This module has similarities with the BusinessHours module - you may
 want to check it out as well to see which one better fits your needs
 
-========================================================
-Examples
-========================================================
+## Examples
 
+```
 >>> workday(date(year=2009,month=12,day=25),1, [ date(year=2009,month=12,day=25)
 ] )
 datetime.date(2009, 12, 28)
@@ -83,4 +87,4 @@ datetime.date(2009, 12, 24)
 ,day=25)] )
 0
 >>> 
-
+```
