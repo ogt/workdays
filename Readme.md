@@ -1,6 +1,7 @@
 Workday date utility functions to extend datetime
 ==
 [![Build Status](https://travis-ci.org/ogt/workdays.png)](https://travis-ci.org/ogt/workdays)
+
 ## Synopsis
 
 `NETWORKDAYS(start_date,end_date,holidays)`
