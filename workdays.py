@@ -5,10 +5,12 @@ from datetime import timedelta
 
 # Define the weekday mnemonics to match the date.weekday function
 (MON, TUE, WED, THU, FRI, SAT, SUN) = range(7)
-weekends=(SAT,SUN)
+# Define default weekends, but allow this to be overridden at the function level
+# in case someone only, for example, only has a 4-day workweek.
+default_weekends=(SAT,SUN)
 
 
-def networkdays(start_date, end_date, holidays=[]):
+def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
     delta_days = (end_date - start_date).days + 1
     full_weeks, extra_days = divmod(delta_days, 7)
     # num_workdays = how many days/week you work * total # of weeks
@@ -31,7 +33,7 @@ def _in_between(a,b,x):
 def cmp(a, b):
     return (a > b) - (a < b)
 
-def workday(start_date, days=0, holidays=[]):
+def workday(start_date, days=0, holidays=[], weekends=default_weekends):
     if days== 0:
         return start_date;
     if days>0 and start_date.weekday() in weekends: #

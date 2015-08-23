@@ -4,13 +4,13 @@ Workday date utility functions to extend datetime
 
 ## Synopsis
 
-`NETWORKDAYS(start_date,end_date,holidays)`
+`NETWORKDAYS(start_date,end_date,holidays,weekends)`
 
-`WORKDAY(start_date,days,[holidays])`
+`WORKDAY(start_date,days,[holidays],(weekends))`
 
 ## Description
 
-`NETWORKDAYS(start_date,end_date,holidays)`
+`NETWORKDAYS(start_date,end_date,holidays,weekends)`
 
 Returns the number of whole working days between start_date and end_date
 (inclusive of both start_date and end_date). Working days exclude
@@ -24,8 +24,13 @@ Holidays is an optional list of one or more dates to exclude from
 the working calendar, such as state and federal holidays and floating
 holidays. The holiday list should not have duplicates.
 
+Weekends is an optional tuple of integers that correlate to the
+standard weekday numbers which defaults to (5,6) indicating Saturday
+and Sunday.
+
 The function should work almost identically to the corresponding
-Networkdays function of Excel  (Analysis ToolPak)
+Networkdays function of Excel  (Analysis ToolPak) when the default
+weekends (5,6) tuple is not overridden.
 
 Note that just like in excel workday and networks days aren't
 "complimentary"  i..e if wdays = networkdays(d1,d2) you *cannot*
@@ -36,7 +41,7 @@ complimentary. We have followed to obey excel's conventions as opposed
 to come up with our own.  Also start_date has to be less than or equal
 to end_date
 
-`WORKDAY(start_date,days,[holidays])`
+`WORKDAY(start_date,days,[holidays],(weekends))`
 
 Returns a number that represents a date that is the indicated number
 of working days before or after a date (the starting date). Working
@@ -51,6 +56,10 @@ value yields a past date.
 Holidays is an optional list of one or more dates to exclude from
 the working calendar, such as state and federal holidays and floating
 holidays. The holiday list should not have duplicates.
+
+Weekends is an optional tuple of integers that correlate to the
+standard weekday numbers which defaults to (5,6) indicating Saturday
+and Sunday.
 
 The function should work almost identically to the corresponding Workday
 function of Excel  (Analysis ToolPak)
