@@ -66,3 +66,14 @@ def workday(start_date, days=0, holidays=[], weekends=default_weekends):
                     new_date += delta
     return new_date
 
+
+def workdays(start_date, days=0, holidays=[], weekends=default_weekends):
+    end_date = workday(start_date, days, holidays, weekends)
+    total_days = (end_date - start_date).days
+
+    def is_valid(day):
+        return not ((day.weekday() in weekends) or (day in holidays))
+
+    days_list = [start_date + timedelta(days=day) for day in range(total_days)]
+    days = filter(lambda day: is_valid(day), days_list)
+    return iter(days)
