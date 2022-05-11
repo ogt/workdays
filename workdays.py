@@ -53,6 +53,14 @@ def networkdays(start_date: datetime.date,
     return num_workdays
 
 
+def _cmp(a, b) -> int:
+    return int((a > b) - (a < b))
+
+
+def _in_between(a, b, x) -> bool:
+    return a <= x <= b or b <= x <= a
+
+
 def workday(start_date: datetime.date, days: int = 0, holidays: List[datetime.date] = None,
             weekends=default_weekends):
     """
@@ -73,12 +81,6 @@ def workday(start_date: datetime.date, days: int = 0, holidays: List[datetime.da
 
     if days == 0:
         return start_date
-
-    def cmp(a, b) -> int:
-        return int((a > b) - (a < b))
-
-    def _in_between(a, b, x) -> bool:
-        return a <= x <= b or b <= x <= a
 
     if days > 0 and start_date.weekday() in weekends:
         # If the start date is a weekend, it will keep subtracting days until it is not a weekend.
@@ -102,7 +104,7 @@ def workday(start_date: datetime.date, days: int = 0, holidays: List[datetime.da
 
     # avoid this if no holidays
     if holidays:
-        delta = timedelta(days=int(cmp(days, 0)))
+        delta = timedelta(days=int(_cmp(days, 0)))
         # skip holidays that fall on weekends
         holidays = [x for x in holidays if x.weekday() not in weekends]
         holidays = [x for x in holidays if x != start_date]
