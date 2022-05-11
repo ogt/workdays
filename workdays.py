@@ -7,7 +7,7 @@ from datetime import timedelta
 (MON, TUE, WED, THU, FRI, SAT, SUN) = range(7)
 # Define default weekends, but allow this to be overridden at the function level
 # in case someone only, for example, only has a 4-day workweek.
-default_weekends=(SAT,SUN)
+default_weekends = (SAT, SUN)
 
 
 def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
@@ -18,31 +18,34 @@ def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
     # subtract out any working days that fall in the 'shortened week'
     for d in range(1, 8 - extra_days):
         if (end_date + timedelta(d)).weekday() not in weekends:
-             num_workdays -= 1
+            num_workdays -= 1
     # skip holidays that fall on weekends
-    holidays =  [x for x in holidays if x.weekday() not in weekends]
+    holidays = [x for x in holidays if x.weekday() not in weekends]
     # subtract out any holidays 
     for d in holidays:
         if start_date <= d <= end_date:
             num_workdays -= 1
     return num_workdays
 
-def _in_between(a,b,x):
+
+def _in_between(a, b, x):
     return a <= x <= b or b <= x <= a
+
 
 def cmp(a, b):
     return (a > b) - (a < b)
 
+
 def workday(start_date, days=0, holidays=[], weekends=default_weekends):
-    if days== 0:
-        return start_date;
-    if days>0 and start_date.weekday() in weekends: #
-      while start_date.weekday() in weekends:
-          start_date -= timedelta(days=1)
+    if days == 0:
+        return start_date
+    if days > 0 and start_date.weekday() in weekends:  #
+        while start_date.weekday() in weekends:
+            start_date -= timedelta(days=1)
     elif days < 0:
-      while start_date.weekday() in weekends:
-          start_date += timedelta(days=1)
-    full_weeks, extra_days = divmod(days,7 - len(weekends))
+        while start_date.weekday() in weekends:
+            start_date += timedelta(days=1)
+    full_weeks, extra_days = divmod(days, 7 - len(weekends))
     new_date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
         new_date += timedelta(days=1)
@@ -54,15 +57,14 @@ def workday(start_date, days=0, holidays=[], weekends=default_weekends):
 
     # avoid this if no holidays
     if holidays:
-        delta = timedelta(days=1 * cmp(days,0))
+        delta = timedelta(days=1 * cmp(days, 0))
         # skip holidays that fall on weekends
-        holidays =  [x for x in holidays if x.weekday() not in weekends ]
-        holidays =  [x for x in holidays if x != start_date ]
-        for d in sorted(holidays, reverse = (days < 0)):
+        holidays = [x for x in holidays if x.weekday() not in weekends]
+        holidays = [x for x in holidays if x != start_date]
+        for d in sorted(holidays, reverse=(days < 0)):
             # if d in between start and current push it out one working day
             if _in_between(start_date, new_date, d):
                 new_date += delta
                 while new_date.weekday() in weekends:
                     new_date += delta
     return new_date
-
