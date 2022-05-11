@@ -11,7 +11,6 @@ setup(name='workdays',
       keywords = ['python', 'datetime', 'workdays', 'excel' ],
       classifiers = [
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Development Status :: 3 - Alpha',
         'Operating System :: OS Independent',
