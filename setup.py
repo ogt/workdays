@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='workdays',
-      version='1.5',
+      version='1.6',
       description="Workday date utility functions to extend python's datetime",
       author='Odysseas Tsatalos',
       py_modules=['workdays'],
