@@ -6,20 +6,20 @@ setup(name='workdays',
       author='Odysseas Tsatalos',
       py_modules=['workdays'],
       url='http://github.com/ogt/workdays',
-      download_url = 'http://github.com/ogt/workdays/tarball/master',
+      download_url='http://github.com/ogt/workdays/tarball/master',
       author_email='odysseas@tsatalos.com',
-      keywords = ['python', 'datetime', 'workdays', 'excel' ],
-      classifiers = [
-        'Programming Language :: Python',
-        'Programming Language :: Python :: 3',
-        'Development Status :: 3 - Alpha',
-        'Operating System :: OS Independent',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: BSD License',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Topic :: Utilities',
-          ],
-      long_description = """
+      keywords=['python', 'datetime', 'workdays', 'excel'],
+      classifiers=[
+          'Programming Language :: Python',
+          'Programming Language :: Python :: 3',
+          'Development Status :: 3 - Alpha',
+          'Operating System :: OS Independent',
+          'Intended Audience :: Developers',
+          'License :: OSI Approved :: BSD License',
+          'Topic :: Software Development :: Libraries :: Python Modules',
+          'Topic :: Utilities',
+      ],
+      long_description="""
     Extend python datetime with excel-like workday addition/subtraction
     functionality:
 
@@ -48,4 +48,3 @@ setup(name='workdays',
     want to check it out as well to see which one better fits your needs.
 """,
       )
-
