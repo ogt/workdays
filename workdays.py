@@ -1,16 +1,22 @@
+import datetime
 from datetime import timedelta
 
 # started from the code of Casey Webster at
 # http://groups.google.com/group/comp.lang.python/browse_thread/thread/ddd39a02644540b7
 
 # Define the weekday mnemonics to match the date.weekday function
+from typing import List, Tuple
+
 (MON, TUE, WED, THU, FRI, SAT, SUN) = range(7)
 # Define default weekends, but allow this to be overridden at the function level
 # in case someone only, for example, only has a 4-day workweek.
 default_weekends = (SAT, SUN)
 
 
-def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
+def networkdays(start_date: datetime.date,
+                end_date: datetime.date,
+                holidays: List[datetime.date] = None,
+                weekends: Tuple[int] = default_weekends):
     delta_days = (end_date - start_date).days + 1
     full_weeks, extra_days = divmod(delta_days, 7)
     # num_workdays = how many days/week you work * total # of weeks
@@ -19,12 +25,13 @@ def networkdays(start_date, end_date, holidays=[], weekends=default_weekends):
     for d in range(1, 8 - extra_days):
         if (end_date + timedelta(d)).weekday() not in weekends:
             num_workdays -= 1
-    # skip holidays that fall on weekends
-    holidays = [x for x in holidays if x.weekday() not in weekends]
-    # subtract out any holidays 
-    for d in holidays:
-        if start_date <= d <= end_date:
-            num_workdays -= 1
+    if holidays:
+        # skip holidays that fall on weekends
+        holidays = [x for x in holidays if x.weekday() not in weekends]
+        # subtract out any holidays
+        for d in holidays:
+            if start_date <= d <= end_date:
+                num_workdays -= 1
     return num_workdays
 
 
@@ -36,17 +43,36 @@ def cmp(a, b):
     return (a > b) - (a < b)
 
 
-def workday(start_date, days=0, holidays=[], weekends=default_weekends):
+def workday(start_date: datetime.date, days=0, holidays: List[datetime.date] = None,
+            weekends=default_weekends):
+    """
+    If the start date is a weekend, it will keep subtracting days until it is not a weekend.
+
+    The function takes in a start date, a number of days, a list of holidays, and a list of weekends. The default weekends
+    are Saturday and Sunday
+
+    :param start_date: The date to start from
+    :type start_date: datetime.date
+    :param days: The number of days to add or subtract from the start date, defaults to 0 (optional)
+    :param holidays: a list of dates that are holidays
+    :type holidays: List[datetime.date]
+    :param weekends: A list of integers representing the days of the week that are weekends. The default is [5, 6], which
+    means Saturday and Sunday
+    :return: the date of the next workday.
+    """
+
     if days == 0:
         return start_date
-    if days > 0 and start_date.weekday() in weekends:  #
+    if days > 0 and start_date.weekday() in weekends:
+        # If the start date is a weekend, it will keep subtracting days until it is not a weekend.
         while start_date.weekday() in weekends:
             start_date -= timedelta(days=1)
     elif days < 0:
+        # If the start date is a weekend, it will keep subtracting days until it is not a weekend.
         while start_date.weekday() in weekends:
             start_date += timedelta(days=1)
     full_weeks, extra_days = divmod(days, 7 - len(weekends))
-    new_date = start_date + timedelta(weeks=full_weeks)
+    new_date: datetime.date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
         new_date += timedelta(days=1)
         while new_date.weekday() in weekends:
