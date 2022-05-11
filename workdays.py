@@ -73,6 +73,13 @@ def workday(start_date: datetime.date, days: int = 0, holidays: List[datetime.da
 
     if days == 0:
         return start_date
+
+    def cmp(a, b) -> int:
+        return int((a > b) - (a < b))
+
+    def _in_between(a, b, x) -> bool:
+        return a <= x <= b or b <= x <= a
+
     if days > 0 and start_date.weekday() in weekends:
         # If the start date is a weekend, it will keep subtracting days until it is not a weekend.
         while start_date.weekday() in weekends:
@@ -81,26 +88,21 @@ def workday(start_date: datetime.date, days: int = 0, holidays: List[datetime.da
         # If the start date is a weekend, it will keep subtracting days until it is not a weekend.
         while start_date.weekday() in weekends:
             start_date += timedelta(days=1)
+
     full_weeks, extra_days = divmod(days, 7 - len(weekends))
     new_date: datetime.date = start_date + timedelta(weeks=full_weeks)
     for i in range(extra_days):
         new_date += timedelta(days=1)
         while new_date.weekday() in weekends:
             new_date += timedelta(days=1)
+
     # to account for days=0 case
     while new_date.weekday() in weekends:
         new_date += timedelta(days=1)
 
     # avoid this if no holidays
     if holidays:
-
-        def cmp(a, b) -> int:
-            return (a > b) - (a < b)
-
-        def _in_between(a, b, x) -> bool:
-            return a <= x <= b or b <= x <= a
-
-        delta = timedelta(days=1 * cmp(days, 0))
+        delta = timedelta(days=int(cmp(days, 0)))
         # skip holidays that fall on weekends
         holidays = [x for x in holidays if x.weekday() not in weekends]
         holidays = [x for x in holidays if x != start_date]
