@@ -3,6 +3,7 @@
 from datetime import date
 from workdays import workday
 from workdays import networkdays
+from workdays import workdays
 
 
 def test_monday():
@@ -91,3 +92,23 @@ def test_networkdays():
     weekends = (0,5,6)
     assert networkdays(date(2015, 8, 1), date(2015, 9, 30), holidays=holidays,
         weekends=weekends) == 34
+
+
+def test_workdays():
+    start_date = date(2020, 1, 1)
+
+    # test days length
+    days = workdays(start_date, 24)
+    assert len(list(days)) == 24
+
+    # test no include holidays
+    holidays = [date(2020, 1, 5), date(2020, 1, 20)]
+    days = list(workdays(start_date, 24, holidays))
+    has_holidays = len(set(holidays) & set(days))
+    assert has_holidays == 0
+
+    # test work saturday
+    # sundays not included
+    days = list(workdays(start_date, 24, weekends=(6,)))
+    sundays = [day for day in days if day.weekday() == 6]
+    assert len(sundays) == 0
